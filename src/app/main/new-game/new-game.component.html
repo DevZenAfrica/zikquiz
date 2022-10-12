@@ -1,0 +1,263 @@
+<h1 class="text-left font-24 content-title"
+    *ngIf="!object.open&&!(response.data&&response.values)">{{title|translate}}</h1>
+
+<div class="content left-text" *ngIf="!(response.data&&response.values)">
+  <div class="init_play" *ngIf="!object.open">
+    <div style="margin-bottom: 10px">
+      <div style="width: 80%;margin: 0 auto;">
+        <circle-progress [responsive]="true"
+                         [percent]="100" [showUnits]="false" [space]="-5" [titleColor]="'#000000'"
+                         [titleFontSize]="'140'" [titleFontWeight]="'800'"
+                         [showSubtitle]="false" [radius]="20"
+                         [showImage]="false" [startFromZero]="false" [title]="'30'"
+                         [outerStrokeWidth]="5" [showInnerStroke]="true"
+                         [innerStrokeWidth]="5" [showZeroOuterStroke]="true"
+                         [backgroundPadding]="-5" [backgroundOpacity]="1"
+                         [backgroundGradientStopColor]="'transparent'"
+                         [clockwise]="true"
+                         [outerStrokeColor]="'#ffdc5c'" [innerStrokeColor]="'#920023'"
+                         [outerStrokeLinecap]="'butt'"
+                         [showBackground]="true" [backgroundColor]="'#eeeeee'"
+                         [animation]="true" [animateTitle]="true"
+                         [animationDuration]="100"
+        ></circle-progress>
+      </div>
+      <div class="start_test top-10">
+        <button [disabled]="is_load" (click)="load_data()"
+                [ngClass]="is_load?'bg-dark1-light':'bg-red4-light'"
+                class="button button-xl button-full round-small shadow-huge bottom-0">
+          <!--Prêt ? Allez Lancer le jeu--> {{'new_game.start_game'|translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="stat_play text-center right-20" *ngIf="object.open">
+    <div class="playing top-20 text-left">
+      <div class="icon">
+        <i class="fa fa-user"></i>
+      </div>
+      <div class="title">
+        <h1>
+          <span>Nouvelle partie</span> <br>
+          [ {{(current_user.full_name ? current_user.full_name : (current_user.player_name ? current_user.player_name : ('rank.player')))|translate:{'id': (current_user.suffix_player_name ? current_user.suffix_player_name : current_user.id)} }}
+          ]
+        </h1>
+      </div>
+    </div>
+    <!-- [imageSrc]="'assets/'+img"[titleFormat]="formatTitle"-->
+    <div class="one-half" style="width: 58%">
+      <circle-progress [responsive]="true"
+                       [percent]="percent" [showUnits]="false" [space]="-5" [titleColor]="'#000000'"
+                       [titleFontSize]="'140'" [titleFontWeight]="'800'"
+                       [showSubtitle]="false" [radius]="20"
+                       [showImage]="false" [startFromZero]="false" [title]="formatTitle()"
+                       [outerStrokeWidth]="5" [showInnerStroke]="true"
+                       [innerStrokeWidth]="5" [showZeroOuterStroke]="true"
+                       [backgroundPadding]="-5" [backgroundOpacity]="1"
+                       [backgroundGradientStopColor]="'transparent'"
+                       [clockwise]="true"
+                       [outerStrokeColor]="'#ffdc5c'" [innerStrokeColor]="'#920023'"
+                       [outerStrokeLinecap]="'butt'"
+                       [showBackground]="true" [backgroundColor]="'#eeeeee'"
+                       [animation]="true" [animateTitle]="true"
+                       [animationDuration]="(object.nb_times_play/object.list.length)*1000"
+      ></circle-progress>
+    </div>
+    <div class="one-half last-column top-50" style="font-size: 48px;width: 28%;">
+      {{response.good}}
+      <div class="divider top-20 bottom-20 response_divider"></div>
+      {{object.question_start + 1}}
+    </div>
+
+    <div class="clear"></div>
+    <div class="test_running text-left bottom-10">
+      <ng-container *ngFor="let obj of object.list; let i=index">
+        <div class="item clear" *ngIf="object.question_start===i">
+          <div class="one-half large-half last-column bottom-10">
+            <h5 class="color-theme font-600 top-10 bottom-20">{{obj.label}}</h5>
+            <ng-container *ngFor="let obj_r of obj.responses; let j=index">
+              <div class="fac fac-radio fac-green font-20 bottom-10" style="display: block"
+                   [ngClass]="{'fac-green': obj_r.good,
+              'fac-default':(!(obj.answer_id===obj_r.id))&&!obj_r.good,
+              'fac-red':(obj.answer_id===obj_r.id)&&!obj_r.good
+              }">
+                <input [id]="'id_'+j" type="radio" [name]="'name_'+i" [disabled]="disabled"
+                       [(ngModel)]="obj.answer_id" (ngModelChange)="continue_question(obj.answer_id, i);"
+                       [value]="obj_r.id">
+                <label [for]="'id_'+j">{{obj_r.label}}</label>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="clear"></div>
+        <div *ngIf="(object.question_start===i)&&!(is_load||response.show_btn||response.restart)"
+             style="text-align: right">
+          <button (click)="continue_question()" style="float: right; background-color: #dfb05e;"
+                  class="button button-m button-full shadow-huge bottom-0">
+            {{'new_game.pass'|translate}}
+          </button>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="end_play">
+      <button (click)="save_request()" *ngIf="is_load||response.show_btn"
+              class="button button-m button-full bg-red4-light round-small shadow-huge bottom-0">
+        {{'new_game.save_part'|translate}}
+      </button>
+      <br>
+      <button (click)="__init();" *ngIf="response.restart"
+              class="button button-m button-full bg-red1-light round-small shadow-huge bottom-0">
+        {{'new_game.title'|translate}}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="right-10" *ngIf="response.data&&response.values">
+  <div class="content left-text right-20">
+    <div class="playing top-20 text-left">
+      <div class="icon">
+        <i class="fa fa-user"></i>
+      </div>
+      <div class="title">
+        <h1>
+          <span>{{'new_game.resume_part'|translate}}</span> <br>
+          [ {{(current_user.full_name ? current_user.full_name : (current_user.player_name ? current_user.player_name : ('rank.player')))|translate:{'id': (current_user.suffix_player_name ? current_user.suffix_player_name : current_user.id)} }}
+          ]
+        </h1>
+      </div>
+    </div>
+
+    <app-progress-bar-c
+      [progress]="(response.values.nb_answer_valid*100/response.values.nb_question_total)+''"
+      [color]="'#920023'" [color-full]="'#f4da8f'"
+      [title]="'new_game.percent_good_answer'|translate">
+    </app-progress-bar-c>
+
+    <a (click)="$event.stopPropagation()" class="one-third bottom-5">
+      <div class="caption round-medium border-content bottom-0">
+        <div class="caption-top">
+          <h1 class="color-black text-center">
+            <i class="fa fa-check color-green1-light"></i>
+            <span>{{response.values.nb_answer_valid|numberFormat}}</span>
+          </h1>
+        </div>
+        <div class="caption-bottom">
+          <p class="color-black opacity-80">
+            <i class="font-700 text-center">Correct{{(response.values.nb_answer_valid > 1) ? 's' : ''}}</i>
+          </p>
+        </div>
+        <div class="caption-overlay bg-transparent"></div>
+        <!--<div class="caption-bg bg-2"></div>-->
+      </div>
+    </a>
+    <a (click)="$event.stopPropagation()" class="one-third bottom-5">
+      <div class="caption round-medium border-content bottom-0">
+        <div class="caption-top">
+          <h1 class="color-black text-center">
+            <i class="fa fa-times color-red4-light"></i>
+            <span>
+              {{(response.values.nb_answer_total - response.values.nb_answer_valid)|numberFormat}}
+            </span>
+          </h1>
+        </div>
+        <div class="caption-bottom">
+          <p class="color-black opacity-80">
+            <i
+              class="font-700 text-center">
+              Incorrect{{((response.values.nb_answer_total - response.values.nb_answer_valid) > 1) ? 's' : ''}}
+            </i>
+          </p>
+        </div>
+        <div class="caption-overlay bg-transparent"></div>
+        <!--<div class="caption-bg bg-2"></div>-->
+      </div>
+    </a>
+    <a (click)="$event.stopPropagation()" class="one-third last-column bottom-5">
+      <div class="caption round-medium border-content bottom-0">
+        <div class="caption-top">
+          <h1 class="color-black text-center">
+            <i class="fa fa-check color-green1-light"></i>
+            <span>{{response.values.total_point |numberFormat}}</span>
+          </h1>
+        </div>
+        <div class="caption-bottom">
+          <p class="color-black opacity-80">
+            <i class="font-700 text-center">
+              {{((response.values.total_point > 1) ? 'new_game.point_won' : 'new_game.point_win')|translate}}
+            </i>
+          </p>
+        </div>
+        <div class="caption-overlay bg-transparent"></div>
+      </div>
+    </a>
+
+    <div class="clear"></div>
+    <div class="end_play top-10">
+      <button (click)="__init();ngOnInit();"
+              class="button button-m button-full bg-red4-light round-small">
+        {{'new_game.title'|translate}}
+      </button>
+    </div>
+
+    <div class="clear"></div>
+    <div class="question_answer text-left top-10" *ngIf="response.values.questions.length>0">
+      <h1 class="color-red4-light font-20">
+        {{'new_game.review_question'|translate}} [{{response.back + 1}}]
+      </h1>
+      <ng-container *ngFor="let obj of response.values.questions; let i=index">
+        <div class="item" *ngIf="response.back===i">
+          <h5 class="color-theme font-600 top-10 bottom-20">{{obj.label}}</h5>
+          <ng-container *ngFor="let obj_r of obj.answers; let j=index">
+            <div class="answer_item">
+              <span class="status" [ngClass]="{
+              'color-green1-light': (obj.answer_id===obj_r.id)&&obj_r.is_good_answer,
+                  'color-red4-light':(obj.answer_id===obj_r.id)&&!obj_r.is_good_answer
+                  }" *ngIf="obj.answer_id===obj_r.id">
+                {{'new_game.your_answer'|translate}}
+              </span>
+              <div class="answer">
+                <span>
+                  <i class="fa" [ngClass]="{'fa-check color-green1-light': obj_r.is_good_answer,
+                  '':(!(obj.answer_id===obj_r.id))&&!obj_r.is_good_answer,
+                  'fa-times color-red4-light':(obj.answer_id===obj_r.id)&&!obj_r.is_good_answer
+                  }"></i>
+                </span>
+                <div class="label">{{obj_r.label}}</div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+
+      <div class="continue_back">
+        <button (click)="switch_question(true)" style="float: left; background-color: #dfb05e;"
+                class="button button-m button-full">
+          <i class="fa fa-caret-left"></i> {{'new_game.previous'|translate}}
+        </button>
+        <button (click)="switch_question()" style="float: right; background-color: #dfb05e;"
+                class="button button-m button-full">
+          {{'new_game.next'|translate}} <i class="fa fa-caret-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="start_player_zone" *ngIf="play_sound.counter">
+  <div class="counter_zone">
+    {{play_sound.counter}}
+  </div>
+</div>
+
+<div class="clear"></div>
+<div class="fixed-footer">
+  #GrandQuiz
+</div>
+
+<!--<div class="fixed-bottle">
+  <img src="assets/img/mutzig_65cl.png" alt="bouteille">
+</div>-->

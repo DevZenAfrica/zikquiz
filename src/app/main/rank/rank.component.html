@@ -1,0 +1,156 @@
+<h1 class="text-left font-24 content-title">{{title|translate}}</h1>
+
+<div class="content">
+  <!--<div class="content_parent tab-controls tab-animated tabs-medium tabs-rounded"
+       data-tab-items="2"
+       data-tab-active="bg-red4-light">
+    <a (click)="$event.stopPropagation();init_data_7(0);" data-tab-active data-tab="tab-0">
+      {{'views.this_week' | translate}} </a>
+    <a (click)="$event.stopPropagation();init_data_7(1);" data-tab="tab-1">
+      {{'views.week_1'|translate}}</a>
+  </div>-->
+  <div class="content_parent tab-controls tab-animated tabs-medium tabs-rounded"
+       [attr.data-tab-items]="total_tab"
+       data-tab-active="bg-red4-light">
+    <a *ngFor="let it of [].constructor(total_tab); let i = index"
+       [attr.data-tab]="'tab-'+i" (click)="$event.stopPropagation();init_data_7(total_tab-(total_tab-i));" [ngClass]="i===0?'bg-red4-light color-white no-click':''">
+      {{(i === 0 ? 'views.this_week' : 'views.week_' + i)|translate}}
+    </a>
+  </div>
+  <div class="clear bottom-15"></div>
+  <div *ngFor="let it of [].constructor(total_tab); let i = index" class="tab-content" [ngClass]="'tab-'+i" style="display: block" [id]="'tab-'+i">
+    <h4 class="bottom-10 text-center" *ngIf="i>0&&date">{{'views.full_week'|translate:date}}</h4>
+
+    <ng-container *ngFor="let obj of object_7?.data; let i=index">
+      <div class="item clear">
+        <div class="one-half small-half">
+          <div class="caption round-small bg-red4-light">
+            <img [src]="(obj.player?.avatar?api_url+obj.player?.avatar:'')||'assets/img/profile.jpg'"
+                 alt="image">
+          </div>
+        </div>
+        <div class="one-half large-half last-column">
+          <h5 class="color-theme font-600 font-20">
+            {{(obj.player_id === current_user?.id ? 'rank.you' : (obj.player?.player_name ? obj.player.player_name : ('rank.player')))|translate:{'id': (obj.player.suffix_player_name ? obj.player.suffix_player_name : obj.player_id)} }}
+          </h5>
+          <!-- <h6>Rang: {{i+1}}</h6>
+           <p>Point : {{obj.total_point}}</p>-->
+          <div class="one-half">
+            <a (click)="$event.stopPropagation()"
+               class="font-30"
+               [ngClass]="{'color-red4-light':i+1<6, 'color-red1-light':(i+1<11&&i+1>5), 'color-green1-light':(i+1<20&&i+1>10)}">
+              {{i + 1}} <sup>{{'base.' + ((i + 1)|rank)|translate}}</sup>
+            </a>
+          </div>
+          <div class="one-half last-column">
+            <a (click)="$event.stopPropagation()"
+               class="button button-full font-12 button-xs bg-green4-light button-round-medium">
+              {{obj.total_point |numberFormat}} Pts
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <p class="text-center" *ngIf="object_7?.data && object_7?.data.length===0">
+      {{'rank.not_ranking_week'|translate}}
+    </p>
+  </div>
+  <!--<div class="tab-content tab-0" id="tab-1">
+    <h4 class="bottom-10 text-center" *ngIf="date">{{'views.full_week'|translate:date}}</h4>
+    <ng-container *ngFor="let obj of object_7?.data; let i=index">
+      <div class="item clear">
+        <div class="one-half small-half">
+          <div class="caption round-small bg-red4-light">
+            <img [src]="(obj.player?.avatar?api_url+obj.player?.avatar:'')||'assets/img/profile.jpg'"
+                 alt="image">
+          </div>
+        </div>
+        <div class="one-half large-half last-column">
+          <h5 class="color-theme font-600 font-20">
+            {{(obj.player_id === current_user?.id ? 'rank.you' : (obj.player?.player_name ? obj.player.player_name : ('rank.player')))|translate:{'id': (obj.player.suffix_player_name ? obj.player.suffix_player_name : obj.player_id)} }}
+          </h5>
+          <div class="one-half">
+            <a (click)="$event.stopPropagation()"
+               class="font-30"
+               [ngClass]="{'color-red4-light':i+1<6, 'color-red1-light':(i+1<11&&i+1>5), 'color-green1-light':(i+1<20&&i+1>10)}">
+              {{i + 1}} <sup>{{'base.' + ((i + 1)|rank)|translate}}</sup>
+            </a>
+          </div>
+          <div class="one-half last-column">
+            <a (click)="$event.stopPropagation()"
+               class="button button-full font-12 button-xs bg-green4-light button-round-medium">
+              {{obj.total_point |numberFormat}} Pts
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <p class="text-center" *ngIf="object_7?.data && object_7?.data.length===0">
+      {{'rank.not_ranking_week'|translate}}
+    </p>
+    <div class="bottom-30 top-20"></div>
+  </div>
+  <div class="tab-content tab-30" id="tab-30">
+    &lt;!&ndash;<div
+      class="search-results"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      [infiniteScrollContainer]="'.tab-30'"
+      [fromRoot]="true"
+      (scrolled)="onScroll30()">&ndash;&gt;
+
+    <ng-container *ngFor="let obj of object_30?.data; let i=index">
+      <div class="item clear">
+        <div class="one-half small-half">
+          <div class="caption round-small bg-red4-light">
+            <img [src]="(obj.avatar?api_url+obj.avatar:'')||'assets/img/profile.jpg'"
+                 alt="image">
+          </div>
+        </div>
+        <div class="one-half large-half last-column">
+          <h5 class="color-theme font-600 font-20">
+            {{(obj.id === current_user?.id ? 'rank.you' : (obj.player_name ? obj.player_name : ('rank.player')))|translate:{'id': (obj.suffix_player_name ? obj.suffix_player_name : obj.id)} }}
+          </h5>
+          &lt;!&ndash; <h6>Rang: {{i+1}}</h6>
+           <p>Point : {{obj.total_point}}</p>&ndash;&gt;
+          <div class="one-half">
+            <a (click)="$event.stopPropagation()"
+               class="font-30 float-left"
+               [ngClass]="{'color-red4-light':i+1<6,
+                    'color-red1-light':(i+1<11&&i+1>5),
+                    'color-green1-light':(i+1<20&&i+1>10)}">
+              {{i + 1}} <sup>{{'base.' + ((i + 1)|rank)|translate}}</sup>
+            </a>
+          </div>
+          <div class="one-half last-column">
+            <a (click)="$event.stopPropagation()"
+               class="button font-12 button-full button-xs bg-green4-light button-round-medium">
+              {{obj.total_point |numberFormat}} Pts
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <p class="text-center" *ngIf="object_30?.data && object_30?.data.length===0">
+      {{'rank.not_ranking_now'|translate}}
+    </p>
+    &lt;!&ndash;</div>&ndash;&gt;
+    <div class="bottom-30 top-20"></div>
+    &lt;!&ndash;<div>
+      <ngx-spinner
+        bdColor="rgba(51,51,51,0.8)"
+        size="default"
+        color="#000"
+        [fullScreen]="false"
+        type="ball-pulse-sync"
+        name="d30"
+      >
+        <p class="text-center" style="font-size: 20px; color: black">{{'rank.loading'|translate}}</p>
+      </ngx-spinner>
+    </div>&ndash;&gt;
+  </div>-->
+</div>

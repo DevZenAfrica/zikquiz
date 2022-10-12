@@ -1,0 +1,14 @@
+<div class="container">
+  <span>{{title}}</span>
+  <div class="progress-outer" [style.background-color]="color_full">
+    <div class="progress-inner" [style.width]="whichProgress(progress) + '%'"
+         [style.background-color]="degraded == null ? color : whichColor(progress)">
+      <ng-container *ngIf="!disabledP">
+        {{whichProgress(progress)}}%
+      </ng-container>
+      <ng-container *ngIf="disabledP">
+        {{whichProgress(progress)}}
+      </ng-container>
+    </div>
+  </div>
+</div>

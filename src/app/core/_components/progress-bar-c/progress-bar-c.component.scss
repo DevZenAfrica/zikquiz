@@ -1,0 +1,25 @@
+.container {
+  text-align: center;
+  margin: 10px 2%;
+
+  .progress-outer {
+    width: 100%;
+    padding: 0;
+    background-color: #f4f4f4;
+    /*border: 1px solid #dcdcdc;*/
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    min-height: 23px;
+  }
+
+  .progress-inner {
+    min-width: 15%;
+    min-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0;
+    border-radius: 5px;
+    float: right;
+  }
+}

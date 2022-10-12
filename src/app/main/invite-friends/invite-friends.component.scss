@@ -1,0 +1,159 @@
+:host {
+  .form-text textarea {
+    height: 100px;
+    line-height: 15px;
+  }
+
+  .alert-danger {
+    color: red;
+    font-style: italic;
+  }
+
+  .content {
+    .content-title {
+      padding-left: 0 !important;
+      padding-right: 10px !important;
+
+      &.has-border {
+        border-left: none;
+      }
+    }
+
+    &>p {
+      color: black;
+    }
+
+    .black-content {
+      * {
+        color: black !important;
+      }
+    }
+
+    .not_data_found {
+      line-height: 30px;
+      font-size: 30px;
+    }
+
+    .icon-xs i {
+      width: 58px;
+      line-height: 56px;
+      font-size: 38px;
+      color: white;
+    }
+  }
+
+  .content-title.has-border span:first-child {
+    line-height: 37.5px;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    position: absolute;
+    top: 10px;
+    font-size: 23px;
+    left: 0;
+  }
+
+  .content-title.has-border span:last-child {
+    position: absolute;
+    left: 0;
+    right: 6px;
+    z-index: 1;
+    text-align: right;
+    margin-top: 0px;
+    font-size: 10px;
+  }
+
+
+  .content-title {
+    span {
+      top: 0;
+    }
+
+    h5 {
+      margin-left: 38px;
+    }
+
+    p {
+      margin-left: 38px;
+    }
+  }
+
+  .form {
+    .input-style-1 {
+      .is-what-app {
+        position: absolute;
+        top: 4px;
+        font-size: 10px;
+        font-style: normal;
+        right: 0;
+        width: 43%;
+        text-align: right;
+        z-index: 10;
+
+        .fac {
+          display: block;
+
+          input {
+            display: inline;
+            height: 40px;
+            line-height: 20px;
+            width: 16px;
+          }
+
+          label {
+            display: inline;
+            margin: 0;
+            padding-left: 5px;
+            top: -15px;
+
+            b {
+              font-weight: normal;
+            }
+
+            img {
+              height: 40px;
+              display: inline;
+              bottom: -10px;
+            }
+          }
+        }
+      }
+
+      &.has-icon {
+        .input-container {
+          position: absolute;
+          z-index: 10;
+          margin-top: 14px;
+          margin-left: 0;
+
+          b {
+            padding-left: 5px;
+            font-size: 18px;
+            color: var(--main-color);
+          }
+
+          i {
+            font-size: 11px;
+          }
+        }
+
+        input {
+          &.tel {
+            font-size: 18px;
+            font-weight: bold;
+            padding-left: 62px;
+
+            &.tel_register {
+              padding-right: 43%;
+            }
+          }
+        }
+      }
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+
+}

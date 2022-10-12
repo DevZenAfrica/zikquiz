@@ -1,0 +1,123 @@
+<h1 class="text-left font-24 content-title">{{title|translate}}</h1>
+
+<div class="content">
+  <p class="left-text top-20">
+    <a (click)="$event.stopPropagation()" shareButton="facebook"
+      [url]="'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}"
+      [description]="'invite_friend.message_invite'|translate:{name:current_user.player_name ? current_user.player_name : ('rank.player'|translate:{'id': (current_user.suffix_player_name ? current_user.suffix_player_name : current_user.id)}), link:'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}}"
+      class="icon icon-xs icon-round bg-facebook regularbold">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a (click)="$event.stopPropagation()" shareButton="twitter"
+      [url]="'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}"
+      [description]="'invite_friend.message_invite'|translate:{name:current_user.player_name ? current_user.player_name : (current_user.full_name?current_user.full_name:('rank.player'|translate:{'id': (current_user.suffix_player_name ? current_user.suffix_player_name : current_user.id)})), link:'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}}"
+      class="icon icon-xs icon-round bg-twitter regularbold">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a (click)="$event.stopPropagation()" shareButton="whatsapp"
+      [url]="'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}"
+      [description]="'invite_friend.message_invite'|translate:{name:current_user.player_name ? current_user.player_name : ('rank.player'|translate:{'id': (current_user.suffix_player_name ? current_user.suffix_player_name : current_user.id)}), link:'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}}"
+      class="icon icon-xs icon-round bg-whatsapp regularbold">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <a (click)="$event.stopPropagation()" shareButton="sms"
+      [url]="'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}"
+      [description]="'invite_friend.message_invite'|translate:{name:current_user.player_name ? current_user.player_name : ('rank.player'|translate:{'id': (current_user.suffix_player_name ? current_user.suffix_player_name : current_user.id)}), link:'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}}"
+      class="icon icon-xs icon-round bg-mail regularbold">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </p>
+  <!-- <div class="content_parent tab-controls tab-animated tabs-medium tabs-rounded"
+       data-tab-items="2"
+       data-tab-active="bg-red4-light">
+    <a data-tab-active data-tab="tab-st" (click)="$event.stopPropagation()">{{'invite_friend.form_title'|translate}}</a>
+    <a data-tab="tab-dt" (click)="$event.stopPropagation()">{{'invite_friend.your_friends'|translate}}</a>
+  </div>
+  <div class="clear bottom-15"></div> -->
+
+  <!-- <div class="tab-content tab-st" style="display: block" id="tab-st">
+    <form name="inviteForm" class="form animated slideInUp top-30" [formGroup]="inviteForm"
+          (ngSubmit)="save_data(inviteForm)">
+      <div class="input-style has-icon input-style-1 input-required">
+        <div class="input-container">
+          <i class="fa fa-phone"></i>
+          <b>+237</b>
+        </div>
+        <span>{{'views.phone_number'|translate}}</span>
+        <div class="is-what-app">
+          <div class="fac fac-checkbox fac-default">
+            <input id="box1-fac-checkbox" type="checkbox"
+                   formControlName="is_whatsapp">
+            <label for="box1-fac-checkbox">
+              <b>{{'views.is_whatsapp_number'|translate}}</b>
+              <img src="assets/img/whatsapp-logo.png" alt="">
+            </label>
+          </div>
+        </div>
+        <input type="number" formControlName="phone_number" (ngModelChange)="number_change()"
+               class="tel tel_register" placeholder="N° Téléphone">
+      </div>
+      <div *ngIf="phoneNumberR.invalid && (phoneNumberR.dirty && phoneNumberR.touched)"
+           class="alert alert-danger">
+        <div *ngIf="phoneNumberR.errors.required">
+          {{'views.phone_number_required'|translate}}
+        </div>
+        <div *ngIf="phoneNumberR.errors.pattern">
+          {{'views.phone_number_must_be'|translate:{'nbr': 9} }}
+        </div>
+      </div>
+
+      <div class="input-style has-icon input-style-1 input-required">
+        <i class="input-icon fa fa-user font-11"></i>
+        <span>{{'invite_friend.her_name'|translate}}</span>
+        <em>({{'views.required' |translate}})</em>
+        <input formControlName="full_name" [placeholder]="'xxxxx'|translate">
+      </div>
+      <div *ngIf="fullName.invalid && (fullName.dirty && fullName.touched)"
+           class="alert alert-danger">
+        <div *ngIf="fullName.errors.required">
+          {{'invite_friend.her_name_required'|translate}}
+        </div>
+        <div *ngIf="fullName.errors.minlength">
+          {{'invite_friend.her_name_must_be'|translate:{'nbr': 4} }}
+        </div>
+      </div>
+
+      <div class="top-30">
+        <button style="width: 100%"
+                class="button button-full button-m round-small shadow-huge bg-red4-dark bottom-30 top-20"
+                type="submit" [disabled]="inviteForm.invalid">
+          {{'invite_friend.send'|translate}}
+        </button>
+      </div>
+    </form>
+  </div> -->
+  <!-- <div class="tab-content tab-dt" id="tab-dt"> -->
+  <div class="top-30">
+    <ng-container *ngFor="let obj of object.data">
+      <div class="content-title has-border border-highlight bottom-10">
+        <span class=" round-huge shadow-huge"
+          [ngClass]="{'bg-green4-dark':obj.parrain_accepted, 'bg-yellow2-dark':(!obj.parrain_accepted)}">
+          <i class="fa fa-info-circle"></i>
+        </span>
+        <h5 class="bold color-black">{{obj.full_name || obj.player_name || 'joueur-' + obj.id}}</h5>
+        <!-- *ngIf="obj.reasons.length>0"-->
+        <p>
+          {{'invite_friend.status_invitation'|translate}}
+          <b [ngClass]="{'color-green4-dark':obj.parrain_accepted, 'color-yellow2-dark':(!obj.parrain_accepted)}">
+            {{(!obj.parrain_accepted ? 'invite_friend.in_class' : 'invite_friend.accepted')|translate}}
+          </b>
+        </p>
+        <span class="color-highlight">
+          <i class="fa fa-caret-right"></i>
+        </span>
+      </div>
+      <div class="divider top-10"></div>
+    </ng-container>
+
+    <div *ngIf="object?.data?.length===0" class="text-center not_data_found">
+      {{'invite_friend.not_data_found'|translate}}
+    </div>
+  </div>
+  <!-- </div> -->
+</div>

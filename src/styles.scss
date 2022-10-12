@@ -1,0 +1,235 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+$black-87-opacity: '#fffff';
+$bv-brand: ( 50: #ffffff, 100: #e6dad0, 200: #c9a789, 300: #ebb586, 400: #be9a7a, 500: #b67f4f, 600: #d27c31, 700: #d27c31, 800: #d27c31, 900: #d27c31, A100: #ffffff, A200: #d8b18f, A400: #e6a66f, A700: #d27c31, contrast: ( 50: $black-87-opacity, 100: $black-87-opacity, 200: $black-87-opacity, 300: $black-87-opacity, 400: $black-87-opacity, 500: white, 600: white, 700: white, 800: white, 900: white, A100: $black-87-opacity, A200: $black-87-opacity, A400: $black-87-opacity, A700: white, ));
+$bv-orange: ( 50: #ffffff, 100: #fff7f4, 200: #fecdbd, 300: #fc9977, 400: #fc8259, 500: #fb6c3b, 600: #fa551d, 700: #f44205, 800: #d63a04, 900: #b83204, A100: #ffffff, A200: #fff7f4, A400: #fc8259, A700: #f44205, contrast: ( 50: $black-87-opacity, 100: $black-87-opacity, 200: $black-87-opacity, 300: $black-87-opacity, 400: $black-87-opacity, 500: white, 600: white, 700: white, 800: white, 900: white, A100: $black-87-opacity, A200: $black-87-opacity, A400: $black-87-opacity, A700: white, ));
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$mutzig-start-players-primary: mat-palette($bv-brand);
+$mutzig-start-players-accent: mat-palette($bv-orange, A200, A100, A400);
+// The warn palette is optional (defaults to red).
+$mutzig-start-players-warn: mat-palette($mat-red);
+// Create the theme object (a Sass map containing all of the palettes).
+$mutzig-start-players-theme: mat-light-theme($mutzig-start-players-primary, $mutzig-start-players-accent, $mutzig-start-players-warn);
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($mutzig-start-players-theme);
+@import "~owl.carousel/dist/assets/owl.carousel.css";
+@import "~owl.carousel/dist/assets/owl.theme.default.css";
+@import '~ngx-ui-switch/ui-switch.component.scss';
+@import '~animate.css/animate.min.css';
+@import '~ngx-toastr/toastr';
+.mat-body p,
+.mat-body-1 p,
+.mat-typography p {
+    margin: unset;
+}
+
+.dialog-wha .mat-dialog-container {
+    padding: unset;
+}
+
+:root {
+    --main-color: #fdc700;
+    --second-color: rgb(205, 15, 119);
+    --dark-color: #000;
+    --blue-color: #4A89DC;
+}
+
+.country-dropdown {
+    min-width: 20rem;
+}
+
+.iti {
+    width: 100%;
+    .iti__selected-flag {
+        padding: 0 6px 0 13px;
+    }
+    .iti--allow-dropdown input[type=tel] {
+        padding-left: 90px;
+    }
+    .tel {
+        &.tel_register {
+            padding-left: 90px !important;
+            height: 50px;
+            line-height: 50px;
+        }
+    }
+}
+
+.iti__country {
+    padding: 2px 10px;
+    outline: none;
+    margin-bottom: 0;
+    span {
+        position: unset;
+        margin-left: 0 !important;
+        margin-right: 0;
+        opacity: 1;
+        color: black !important;
+        font-size: unset;
+    }
+}
+
+.footer-menu span {
+    font-size: 10px;
+    display: block;
+    text-align: center;
+    line-height: 10px;
+    color: #666;
+    margin-top: 3px;
+}
+
+.page-content .page-title {
+    padding-top: 10px !important;
+    padding-bottom: 10px;
+}
+
+sup {
+    top: -9px;
+    left: -2px;
+}
+
+.page-title-left a img {
+    height: 54px;
+}
+
+.page-title-right a {
+    height: 24px;
+    line-height: 24px;
+}
+
+.page-title-right a.lang {
+    font-size: 8px;
+    background-color: black;
+    color: white;
+    padding: 0;
+    border-radius: unset;
+}
+
+
+/*.page-title-right {
+  top: 20px;
+}*/
+
+.page-content .content-title {
+    padding-left: 15px !important;
+    color: var(--main-color);
+    padding-top: 5px;
+    /*padding-bottom: 10px;*/
+}
+
+.double-slider .slider-item {
+    min-width: 150px !important;
+    width: auto;
+    /*width: 160px !important;*/
+}
+
+.double-slider .caption {
+    margin-bottom: 0;
+}
+
+.under-heading {
+    margin-top: 0;
+}
+
+p.under-heading {
+    line-height: 40px;
+}
+
+.caption-bottom p {
+    line-height: 19px;
+}
+
+p.post_date_min {
+    margin: 0 0 20px 0;
+    font-style: italic;
+    /*font-weight: bold;*/
+    font-size: 9px;
+}
+
+.loader-main_2 {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 999;
+    background-color: #ffffff75;
+    will-change: opacity;
+    transition: all 250ms ease;
+}
+
+.visible-slider2-small {
+    padding: 0px 15px 0px 15px !important;
+}
+
+p {
+    line-height: 26px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: black;
+}
+
+.hide-btn {
+    display: none;
+}
+
+button:disabled,
+button[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc !important;
+    color: #666666;
+}
+
+.ng-valid[required],
+.ng-valid.required {
+    border-bottom: 2px solid #42A948;
+    /* green */
+}
+
+input {
+    &.ng-invalid.ng-touched:not(form) {
+        border-bottom: 2px solid #a94442;
+        /* red */
+    }
+}
+
+.content {
+    z-index: 2;
+}
+
+.fixed-footer {
+    position: fixed;
+    bottom: 70px;
+    left: 25vh;
+    color: var(--main-color);
+}
+
+.fixed-bottle {
+    position: fixed;
+    top: 115px;
+    right: -9vh;
+    img {
+        display: inline;
+        height: 76vh;
+    }
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}

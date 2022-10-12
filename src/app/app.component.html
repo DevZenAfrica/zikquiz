@@ -1,0 +1,194 @@
+<div id="page">
+
+  <div id="page-preloader">
+    <div class="loader-main">
+      <div class="preload-spinner border-highlight"></div>
+    </div>
+  </div>
+  <div class="loader-main_2" *ngIf="_api.getStatusLoader()|async">
+    <div class="preload-spinner border-highlight"></div>
+  </div>
+
+  <div class="header header-fixed header-logo-left header-auto-show bg-red4-light">
+    <a (click)="$event.stopPropagation()" class="header-menu header-icon-1" data-menu="menu-navigation">
+      <i class="fa fa-bars"></i>
+    </a>
+    <div class="header-title">
+      <img src="assets/logo2.png" alt="logo"/>
+    </div>
+    <!-- <a routerLink="home" class="share-link-header header-icon header-icon-1" data-menu="menu-share">
+      <img src="assets/img/share-icons.png" alt="">
+    </a> -->
+  </div>
+
+  <div class="footer-menu footer-7-icons footer-menu-center-icon">
+    <a routerLink="nouveau-jeu" routerLinkActive="active-nav" (click)="$event.stopPropagation()">
+      <i class="fa fa-universal-access"></i>
+      <span [innerHTML]="'base.new_game'|translate"></span>
+    </a>
+    <a routerLink="classement-top-30" routerLinkActive="active-nav" (click)="$event.stopPropagation()">
+      <i class="fa fa-file-contract"></i>
+      <span [innerHTML]="'base.rank_top_30'|translate"></span>
+    </a>
+    <a routerLink="mes-points" routerLinkActive="active-nav" (click)="$event.stopPropagation()">
+      <i class="fa fa-heart"></i>
+      <span [innerHTML]="'base.scores'|translate"></span>
+    </a>
+    <!--<a routerLink="accueil" routerLinkActive="active-nav" (click)="$event.stopPropagation()">
+      <i class="fa fa-home"></i><span [innerHTML]="'base.home'|translate">Accueil</span>
+    </a>-->
+    <a routerLink="proposer-questions" routerLinkActive="active-nav" (click)="$event.stopPropagation()">
+      <i class="fa fa-newspaper"></i>
+      <span [innerHTML]="'base.propose_question'|translate"></span>
+    </a>
+    <a routerLink="inviter-amis" routerLinkActive="active-nav" (click)="$event.stopPropagation()">
+      <i class="fa fa-share-alt"></i>
+      <span [innerHTML]="'base.invite_friend'|translate"></span>
+    </a>
+    <a routerLink="comment-ca-marche" routerLinkActive="active-nav" (click)="$event.stopPropagation()">
+      <i class="fa fa-question-circle"></i>
+      <span [innerHTML]="'base.how_it_work'|translate"></span>
+    </a>
+    <div class="clear"></div>
+  </div>
+
+  <div class="page-content">
+    <div class="page-title shadow-huge bg-red4-light">
+      <div class="page-title-left">
+        <a (click)="$event.stopPropagation()" class="header-menu header-icon-1" data-menu="menu-navigation">
+          <i class="fa fa-bars"></i>
+        </a>
+        <a (click)="$event.stopPropagation()" routerLink="accueil"><img src="assets/logo2.png" alt="logo"/></a>
+      </div>
+      <div class="page-title-right">
+        <a (click)="$event.stopPropagation()" class="share-link header-icon header-icon-1" routerLink="inviter-amis">
+          <i class="fa fa-share-alt"></i>
+        </a>
+        <a (click)="change_language();$event.stopPropagation();"
+           class="button-xxs button-round-small lang">
+          {{'base.lang'|translate}}
+        </a>
+      </div>
+    </div>
+
+    <div class="divider divider-margins bottom-10"></div>
+
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <!--Scroll to top-->
+
+  <a [ngClass]="{'show-scroll': showScroll}" (click)="$event.stopPropagation();scrollToTop()"
+     class="back-to-top-icon-round bg-highlight shadow-huge scroll-to-top">
+    <i class="fa fa-chevron-up"></i>
+  </a>
+
+  <a style="display: none" href="#" id="popup-modal" data-menu="action-popup">
+    <i class="fab fa-youtube color-red2-dark"></i>
+    <span>Open modal first</span>
+    <i class="fa fa-angle-right"></i>
+  </a>
+
+  <div id="menu-share"
+       class="menu-box round-medium menu-box-detached"
+       data-menu-type="menu-box-bottom"
+       data-menu-height="200"
+       data-menu-effect="menu-parallax">
+    <div class="page-title has-subtitle">
+      <div class="page-title-left">
+        <a href="#" class="font-23">Partager pour sauver des vies</a>
+        <span class="color-highlight">Informer vos proches</span>
+      </div>
+      <div class="page-title-right">
+        <a href="#" class="close-menu"><i class="fa fa-times-circle font-20 color-red2-dark"></i></a>
+      </div>
+    </div>
+    <div class="divider bottom-20"></div>
+    <div class="visible-slider-small social-slider owl-carousel owl-no-dots bottom-15">
+      <a href="#" class="shareToFacebook">
+        <i class="fab fa-facebook-f bg-facebook"></i><span>Facebook</span>
+      </a>
+      <a href="#" class="shareToTwitter">
+        <i class="fab fa-twitter bg-twitter"></i><span>Twitter</span>
+      </a>
+      <a href="#" class="shareToMail">
+        <i class="fa fa-envelope bg-mail"></i><span>Email</span>
+      </a>
+      <a href="#" class="shareToLinkedIn">
+        <i class="fab fa-linkedin-in bg-linkedin"></i><span>LinkedIn</span>
+      </a>
+      <a href="#" class="shareToWhatsApp">
+        <i class="fab fa-whatsapp bg-whatsapp"></i><span>Whatsapp</span>
+      </a>
+    </div>
+  </div>
+  <!--data-menu-load="menu-navigation.html"-->
+  <div id="menu-navigation"
+       class="menu menu-box menu-box-left"
+       data-menu-type="menu-box-left"
+       data-menu-width="260"
+       data-menu-selected="page-welcome"
+       data-menu-effect="menu-over">
+
+    <a href="#" class="nav-title color-theme">
+      <img src="assets/logo3.png" alt="logo"/>
+    </a>
+
+    <div class="nav nav-medium">
+      <div class="divider"></div>
+      <a routerLink="home" routerLinkActive="active-nav" (click)="close_menu($event)">
+        <i class="fa fa-home color-red4-light"></i>
+        <span [innerHTML]="'base.home'|translate"></span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a routerLink="nouveau-jeu" routerLinkActive="active-nav" (click)="close_menu($event)">
+        <i class="fa fa-universal-access color-red4-dark"></i>
+        <span>{{'menu.new_game'|translate}}</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a routerLink="classement-top-30" routerLinkActive="active-nav" (click)="close_menu($event)">
+        <i class="fa fa-file-contract color-red4-dark"></i>
+        <span>{{'menu.rank_top_30'|translate}}</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a routerLink="mes-points" routerLinkActive="active-nav" (click)="close_menu($event)">
+        <i class="fa fa-heart color-red4-dark"></i>
+        <span>{{'menu.scores'|translate}}</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a routerLink="proposer-questions" routerLinkActive="active-nav" (click)="close_menu($event)">
+        <i class="fa fa-newspaper color-red4-dark"></i>
+        <span>{{'menu.propose_question'|translate}}</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a routerLink="comment-ca-marche" routerLinkActive="active-nav" (click)="close_menu($event)">
+        <i class="fa fa-question-circle color-red4-dark"></i>
+        <span>{{'menu.how_it_work'|translate}}</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a routerLink="nous-contacter" routerLinkActive="active-nav" (click)="close_menu($event)">
+        <i class="fa fa-phone-square color-red4-dark"></i>
+        <span>{{'menu.contact_us'|translate}}</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a routerLink="mon-compte" routerLinkActive="active-nav" *ngIf="is_login"
+         (click)="close_menu($event)">
+        <i class="fa fa-user color-red4-dark"></i>
+        <span>{{'menu.my_account'|translate}}</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+      <a (click)="logout($event)" *ngIf="is_login">
+        <i class="fa fa-sign-out-alt color-red4-dark"></i>
+        <span>{{'menu.logout'|translate}}</span>
+        <i class="fa fa-angle-right"></i>
+      </a>
+
+      <div class="divider top-15"></div>
+      <p>Copyright <span class="copyright-year"></span> - {{'menu.law'|translate}}</p>
+    </div>
+  </div>
+
+  <div class="menu-hider"></div>
+</div>

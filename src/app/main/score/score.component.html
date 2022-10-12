@@ -1,0 +1,114 @@
+<h1 class="text-left font-24 content-title">{{title|translate}}</h1>
+
+<div class="content" *ngIf="total_tab">
+  <h5 class="color-theme font-600 font-20 bottom-30">
+    {{'score.name'|translate}}
+    : {{(current_user.full_name ? current_user.full_name : (current_user.player_name ? current_user.player_name : ('rank.player')))|translate:{'id': (current_user.suffix_player_name ? current_user.suffix_player_name : current_user.id)} }}
+  </h5>
+
+  <div class="content_parent tab-controls tab-animated tabs-medium tabs-rounded"
+       [attr.data-tab-items]="total_tab"
+       data-tab-active="bg-red4-light">
+    <a *ngFor="let it of [].constructor(total_tab); let i = index"
+       [ngClass]="i===0?'bg-red4-light color-white no-click':''"
+       [attr.data-tab]="'tab-'+i" (click)="$event.stopPropagation();load_data(total_tab-(total_tab-i));">
+      {{(i === 0 ? 'views.this_week' : 'views.week_' + i)|translate}}
+    </a>
+  </div>
+  <div class="clear bottom-5"></div>
+
+  <div *ngFor="let it of [].constructor(total_tab); let i = index" class="tab-content" [ngClass]="'tab-'+i"
+       style="display: block" [id]="'tab-'+i">
+    <h4 class="bottom-10 text-center" *ngIf="i>0&&date">{{'views.full_week'|translate:date}}</h4>
+
+    <div class="font-700 top-30" *ngIf="object.total_question!=null">
+      <p class="font-14">{{'score.good_answer'|translate}}: <b class="color-red4-light">{{object.total_good_answer}}</b>
+      </p>
+      <div class="divider top-10 bottom-10"></div>
+      <p class="font-14">{{'score.fail_answer'|translate}}: <b class="color-red4-light">{{object.total_fail_answer}}</b>
+      </p>
+      <div class="divider top-10 bottom-10"></div>
+      <p class="font-14">{{'score.parrains'|translate}} ({{object.count_invitation}}): <b
+        class="color-red4-light">{{object.total_parain_point}}</b></p>
+      <div class="divider top-10 bottom-10"></div>
+      <p class="font-14">
+        {{'score.propose_question'|translate}} ({{object.count_proposition}}): <b
+        class="color-red4-light">{{object.my_stat?.week?.data?.total_proposition_accept || 0}}</b>
+      </p>
+
+      <div class="divider top-20 bottom-10 bg-red4-light" style="height: 5px; border-radius: 2px"></div>
+
+      <p class="font-14">{{'score.final_score'|translate}} :
+        <b
+          class="color-red4-light">{{object.total_point}}</b>
+      </p>
+      <div class="divider top-10 bottom-10"></div>
+      <p class="font-14">
+        {{'score.week'|translate}}:
+        <b class="color-red4-light">
+          <span *ngIf="object.my_stat?.week">{{object.my_stat?.week?.rank + 1}}
+            <sup>{{'base.' + ((object.my_stat?.week?.rank + 1)|rank)|translate}}</sup>
+          </span>
+          <span *ngIf="!object.my_stat?.week"> ... </span>
+        </b>
+      </p>
+      <!--<p class="font-14">
+        {{'score.general'|translate}}:
+        <b class="color-red4-light">{{object.my_stat?.all?.rank+1}}
+        <sup>{{'base.'+((object.my_stat?.all.rank+1)|rank)|translate}}</sup></b>
+      </p>-->
+    </div>
+  </div>
+  <!--<div class="tab-content tab-dt" id="tab-dt">
+    <div
+      class="search-results"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      [infiniteScrollContainer]="'.tab-dt'"
+      [fromRoot]="true"
+      (scrolled)="onScroll()">
+      <ng-container *ngFor="let obj of details?.data; let i=index">
+        <div class="item clear">
+          <div>
+            <h6
+              class="font-13 font-400">
+              {{(obj.is_parain_point ? 'score.parrain_point' : 'score.part_number')|translate:{
+              'name': obj.player_name,
+              'nbr': obj.play_rank
+            } }}
+            </h6>
+            <div>
+              <button style="width: 150px" class="button font-12 float-left button-xs bg-red1-light">
+                {{'score.tq'|translate}}: {{obj.total_question}}
+              </button>
+              <button style="width: 150px"
+                      class="button font-12 float-right button-xs bg-green4-light">
+                {{'score.tr'|translate}}: {{obj.total_answer}}
+              </button>
+            </div>
+            <div>
+              <button style="width: 150px" class="button font-12 float-left button-xs bg-red1-light">
+                {{'score.tp'|translate}}: {{obj.total_point}}
+              </button>
+              <button style="width: 150px"
+                      class="button font-12 float-right button-xs bg-green4-light">
+                {{'score.tbr'|translate}}: {{obj.total_good_answer}}
+              </button>
+            </div>
+            <div class="clear"></div>
+            &lt;!&ndash;<p class="bold font-italic font-16" *ngIf="obj.is_parain_point">
+              Point parainnage de {{obj.player_name}}
+            </p>&ndash;&gt;
+          </div>
+        </div>
+
+        <div class="divider top-2 bottom-0"></div>
+      </ng-container>
+
+      <p class="text-center" *ngIf="details?.data && details?.data.length===0">
+        {{'score.no_game_play_yet'|translate}}
+      </p>
+    </div>
+  </div>-->
+</div>

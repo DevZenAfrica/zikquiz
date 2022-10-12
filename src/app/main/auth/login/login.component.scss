@@ -1,0 +1,131 @@
+:host {
+
+  .iti__country span {
+    position: unset;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .alert-danger {
+    color: red;
+    font-style: italic;
+    padding: .15rem 0.25rem;
+    margin-bottom: unset;
+    border: unset;
+    border-radius: .25rem;
+  }
+
+  .login-provider{
+    button,a {
+      width: 100%;
+      color: #fff;
+    }
+  }
+
+  .form {
+    .input-style-1 {
+      .is-what-app {
+        position: absolute;
+        top: 4px;
+        font-size: 10px;
+        font-style: normal;
+        right: 0;
+        text-align: right;
+        z-index: 10;
+        width: 50%;
+        height: 38px;
+        overflow: hidden;
+
+        .fac {
+          display: block;
+
+          input {
+            display: inline;
+            height: 40px;
+            line-height: 20px;
+            width: 16px;
+          }
+
+          label {
+            display: inline;
+            margin: 0;
+            padding-left: 5px;
+            top: -15px;
+
+            b {
+              font-weight: normal;
+            }
+
+            img {
+              height: 40px;
+              display: inline;
+              bottom: -10px;
+            }
+          }
+        }
+      }
+
+      &.has-icon {
+        .head_phone {
+          color: var(--dark-color);
+          position: absolute;
+          font-weight: bold;
+          width: 100%;
+          top: -5px;
+        }
+
+        span {
+          font-weight: bold;
+        }
+
+        .input-style-1-active {
+          color: var(--dark-color) !important;
+        }
+
+        .input-container {
+          position: absolute;
+          z-index: 10;
+          margin-top: 14px;
+          margin-left: 0;
+
+          b {
+            padding-left: 5px;
+            font-size: 18px;
+            color: var(--main-color);
+          }
+
+          i {
+            font-size: 11px;
+          }
+        }
+
+        input {
+          &.tel {
+            font-size: 18px;
+            font-weight: bold;
+            padding-left: 62px;
+
+            &.tel_register {
+              padding-right: 43%;
+            }
+          }
+        }
+      }
+
+      input{
+        margin-bottom: 0;
+      }
+    }
+
+    button {
+      width: 100%;
+    }
+
+    button:disabled,
+    button[disabled] {
+      border: 1px solid var(--second-color);
+      background-color: var(--second-color) !important;
+      color: #666666;
+    }
+  }
+}

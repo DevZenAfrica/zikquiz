@@ -1,0 +1,104 @@
+:host {
+    .content {
+        background: white;
+        .first_player {
+            button {
+                width: 100%;
+            }
+        }
+    }
+    .fixed-bottle {
+        z-index: 10;
+    }
+    .slider-content {
+        min-height: 170px;
+    }
+    .top_content {
+        .user_status {
+            background-color: var(--main-color);
+            padding: 10px 10px 0 10px;
+            border-radius: 15px;
+            .user {
+                .icon {
+                    display: inline-block;
+                    font-size: 34px;
+                    border-radius: 50%;
+                    border: 1px solid #FFFFFF;
+                    padding: 4px 0;
+                    color: #FFFFFF;
+                    height: 50px;
+                    text-align: center;
+                    width: 50px;
+                    background-size: cover;
+                    img {
+                        display: inline;
+                        height: 50px;
+                    }
+                }
+                .title {
+                    display: inline-block;
+                    top: 8px;
+                    h1 {
+                        font-size: 12px;
+                        padding-left: 5px;
+                        line-height: 18px;
+                        color: #000000;
+                        span {
+                            color: #fdd687;
+                            font-size: 28px;
+                            i {
+                                color: rgb(0, 0, 0);
+                                font-size: 18px;
+                            }
+                        }
+                        b {
+                            font-weight: normal;
+                            text-transform: uppercase;
+                        }
+                    }
+                }
+            }
+            .status {
+                margin-top: -6px;
+                .rank,
+                .point {
+                    border-radius: 5px;
+                    min-height: 38px;
+                    line-height: 28px;
+                    font-size: 28px;
+                    margin-bottom: 5px;
+                    text-align: right;
+                    font-weight: 500;
+                    color: #000000;
+                    sup {
+                        font-size: 15px;
+                    }
+                    span {
+                        font-size: 16px;
+                    }
+                }
+            }
+            .rank {
+                background-color: #b36f7a;
+                padding: 5px 30px 5px 10px;
+            }
+            .point {
+                background-color: #aa523e;
+                padding: 5px 10px 0 10px;
+            }
+            .label-text {
+                font-size: 10px;
+                color: white;
+                //margin-top: -5px;
+            }
+        }
+    }
+    .one-third {
+        .caption {
+            height: 120px;
+            h1 {
+                font-size: 42px;
+            }
+        }
+    }
+}

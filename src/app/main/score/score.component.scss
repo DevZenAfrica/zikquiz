@@ -1,0 +1,12 @@
+:host{
+  .tab-content {
+    height: 100vh;
+    overflow: scroll;
+
+    .content-title {
+      padding-left: 0 !important;
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+  }
+}

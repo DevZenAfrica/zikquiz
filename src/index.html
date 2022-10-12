@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <!--<meta name="description" content="Teste-toi, Signale-toi, Informe-toi, Protège-toi et protege les autres. Ensemble combattons le COVID-19 au Cameroun. Actualité, Statistiques sur la pandémie, Gestes barrières, Contacts utiles, Centres de dépistages…" />
+  <meta name="keywords" content="Cameroun, Cameroon, Covid, Covid-19, Coronavirus, Yaoundé, Douala, MINSANTE, Manaouda Malachie, Actualité, Statistiques, Gestes barrières, Centres de dépistages, laquintinie, hôpital central, hôpital général"/>-->
+    <meta charset="utf-8">
+    <title>Zik: Le grand défi sur la music.</title>
+    <base href="/">
+    <link rel="icon" href="assets/icons/cropped-favicon-2-32x32.png" sizes="32x32" />
+    <link rel="icon" href="assets/icons/cropped-favicon-2-192x192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="assets/icons/cropped-favicon-2-180x180.png" />
+    <meta name="msapplication-TileImage" content="assets/icons/cropped-favicon-2-270x270.png" />
+    <link rel="stylesheet" type="text/css" href="assets/fonts/css/fontawesome-all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body class="theme-light mat-typography" data-highlight="red4">
+    <app-root></app-root>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js">
+    </script>
+    <script>
+        var md = new MobileDetect(window.navigator.userAgent);
+        if ((!md.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i)) && !inIframe()) {
+            console.log("Redirection en cour ...");
+            window.location.href = "https://music.quizzafrica.com/go-mobile";
+        }
+
+        function inIframe() {
+            try {
+                return window.self !== window.top;
+            } catch (e) {
+                return true;
+            }
+        }
+    </script>
+    <script type="text/javascript" src="tmp/scripts/jquery.js"></script>
+    <!--<script type="text/javascript" src="tmp/scripts/owl.carousel.min.js"></script>-->
+    <script type="text/javascript" src="tmp/scripts/plugins.js"></script>
+    <script type="text/javascript" src="tmp/scripts/custom.js" async></script>
+</body>
+
+</html>

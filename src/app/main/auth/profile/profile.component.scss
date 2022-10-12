@@ -1,0 +1,125 @@
+:host {
+  .mat-form-field {
+    display: block;
+  }
+
+  .alert-danger {
+    color: red;
+    font-style: italic;
+  }
+
+  .content {
+    .content-title {
+      padding-left: 0 !important;
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    .form {
+      /*padding: 0 20px;*/
+
+      .active_sound {
+        padding-right: 60px;
+
+        .switcher {
+          position: absolute;
+          display: inline-block;
+          width: 66px;
+          right: 0;
+          top: 0;
+          text-align: right;
+        }
+      }
+
+      .input-style-1 {
+        .is-what-app {
+          position: absolute;
+          top: 4px;
+          font-size: 10px;
+          font-style: normal;
+          right: 0;
+          text-align: right;
+          z-index: 10;
+          width: 50%;
+          height: 38px;
+          overflow: hidden;
+
+          .fac {
+            display: block;
+
+            input {
+              display: inline;
+              height: 40px;
+              line-height: 20px;
+              width: 16px;
+            }
+
+            label {
+              display: inline;
+              margin: 0;
+              padding-left: 5px;
+              top: -15px;
+
+              b {
+                font-weight: normal;
+              }
+
+              img {
+                height: 20px;
+                display: inline;
+              }
+            }
+          }
+        }
+
+        &.has-icon {
+          .input-container {
+            position: absolute;
+            z-index: 10;
+            margin-top: 14px;
+            margin-left: 0;
+
+            b {
+              padding-left: 5px;
+              font-size: 18px;
+              color: var(--main-color);
+            }
+
+            i {
+              font-size: 11px;
+            }
+          }
+
+          input {
+            &.tel {
+              font-size: 18px;
+              font-weight: bold;
+              /* padding-left: 62px; */
+
+              &.tel_register {
+                padding-right: 43%;
+              }
+            }
+          }
+        }
+      }
+
+      .send {
+        button {
+          width: 100%;
+        }
+      }
+    }
+
+    .tab-content {
+      overflow: scroll;
+
+
+      &.tab-photo {
+        input {
+          display: none;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,170 @@
+<h1 class="text-left font-20 content-title">{{'views.home_title'|translate}}</h1>
+
+<div class="content">
+  <div class="top_content">
+    <div *ngIf="current_user" class="user_status">
+      <div class="user text-left">
+        <div class="icon"
+          [ngStyle]="{'background-image':(api_url+current_user.avatar?'url('+(current_user.providerId?current_user.avatar:api_url+current_user.avatar)+')':'')}">
+          <i class="fa" [ngClass]="!current_user.avatar?'fa-user':''"></i>
+        </div>
+        <div class="title" [ngStyle]="{'top':(current_user.avatar?'16px':'8px')}">
+          <h1>
+            <span>
+              {{current_user.player_name ? current_user.player_name : current_user.phone}}
+              <i *ngIf="!current_user.player_name" class="fa fa-edit" [routerLink]="'/mon-compte'" theme="dark"
+                placement="right" [tooltip]="'views.edit_profile_player'|translate"></i>
+            </span>
+            <br>
+            <b>{{current_user.full_name ? current_user.full_name : ''}}</b>
+          </h1>
+        </div>
+      </div>
+      <div class="status" *ngIf="my_stat_data">
+        <div class="one-half">
+          <div class="rank text-center" *ngIf="my_stat_data.week">
+            {{(my_stat_data.week.rank + 1)|numberFormat}}
+            <sup>{{'base.' + ((my_stat_data.week.rank + 1)|rank)|translate}}</sup>
+          </div>
+          <div class="rank text-center">
+            {{'views.rang'|translate}}
+          </div>
+        </div>
+        <div class="one-half last-column">
+          <div class="point text-center" *ngIf="my_stat_data.week">
+            {{my_stat_data.week.data?.total_point|numberFormat}} <span>Pts</span>
+          </div>
+          <div class="point text-center">
+            {{'views.point'|translate}}
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="text-center label-text">{{'views.full_week'|translate:date }}</div>
+    </div>
+
+    <div *ngIf="!current_user" class="slider-content top-20">
+      <owl-carousel [options]="sliderOptions" [carouselClasses]="['owl-theme', 'bottom-0']"
+        *ngIf="is_load && (list_top_5.length>0)">
+        <div class="slider-item center-text" *ngFor="let obj of list_top_5; let i=index">
+          <div class="user_status">
+            <div class="user text-left">
+              <div class="icon"
+                [ngStyle]="{'background-image':(api_url+obj.avatar?'url('+(obj.providerId?obj.avatar:api_url+obj.avatar)+')':'')}">
+                <i class="fa" [ngClass]="!obj.avatar?'fa-user':''"></i>
+              </div>
+              <div class="title" [ngStyle]="{'top':(obj.avatar?'8px':'0')}">
+                <h1>
+                  <span>
+                    {{((obj.player_name ? obj.player_name : ('rank.player')))|translate:{'id': (obj.suffix_player_name ?
+                    obj.suffix_player_name : obj.id)} }}
+                  </span>
+                </h1>
+              </div>
+            </div>
+            <div class="status">
+              <div class="one-half">
+                <div class="rank text-center" *ngIf="obj.week">
+                  {{(obj.week.rank + 1)|numberFormat}}
+                  <sup>{{'base.' + ((obj.week.rank + 1)|rank)|translate}}</sup>
+                </div>
+                <div class="rank text-center">
+                  {{'views.rang'|translate}}
+                </div>
+              </div>
+              <div class="one-half last-column">
+                <div class="point text-center" *ngIf="obj.week">
+                  {{obj.week.data?.total_point|numberFormat}} <span>Pts</span>
+                </div>
+                <div class="point text-center">
+                  {{'views.point'|translate}}
+                </div>
+              </div>
+            </div>
+            <div class="clear"></div>
+            <div class="text-center label-text">{{'views.full_week'|translate:date }}</div>
+          </div>
+        </div>
+      </owl-carousel>
+    </div>
+  </div>
+
+  <div class="first_player top-10">
+    <button style="background-color: #b10d67" routerLink="/nouveau-jeu"
+      class="button button-xl button-full round-small shadow-huge bottom-0 ">
+      {{'base.start_play_own'|translate}}
+    </button>
+  </div>
+
+  <div class="slider-content top-20">
+    <owl-carousel [options]="sliderOptions2" [carouselClasses]="['owl-theme', 'bottom-0']"
+      *ngIf="is_load && (list.length>0)">
+      <div class="slider-item center-text" *ngFor="let obj of list">
+        <div style="height: 230px" class="caption round-medium bottom-0">
+          <div class="caption-bottom center-text bottom-25" *ngIf="obj.title">
+            <h1 class="font-28 color-white" style="padding: 0 10px">{{obj.title}}</h1>
+            <span class="under-heading color-highlight font-11">{{obj.title}}</span>
+          </div>
+          <!--<div class="caption-overlay bg-gradient-fade"></div>-->
+          <div class="caption-bg" [ngStyle]="{'background-image': 'url('+obj.image+')'}"></div>
+        </div>
+      </div>
+    </owl-carousel>
+  </div>
+
+  <p class="center-text top-20" *ngIf="!current_user">
+    <a (click)="$event.stopPropagation()" shareButton="facebook" [description]="description|translate"
+      class="icon icon-xs icon-round bg-facebook regularbold">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a (click)="$event.stopPropagation()" shareButton="twitter" [description]="description|translate"
+      class="icon icon-xs icon-round bg-twitter regularbold">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a (click)="$event.stopPropagation()" shareButton="whatsapp" [description]="description|translate"
+      class="icon icon-xs icon-round bg-whatsapp regularbold">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <a (click)="$event.stopPropagation()" shareButton="sms" [description]="description|translate"
+      class="icon icon-xs icon-round bg-mail regularbold">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </p>
+
+  <p class="center-text top-20" *ngIf="current_user">
+    <a (click)="$event.stopPropagation()" shareButton="facebook"
+      [url]="'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}"
+      [description]="'invite_friend.message_invite'|translate:{name:current_user.player_name ? current_user.player_name : ('rank.player'|translate:{'id': (current_user.suffix_player_name ? current_user.suffix_player_name : current_user.id)}), link:'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}}"
+      class="icon icon-xs icon-round bg-facebook regularbold">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a (click)="$event.stopPropagation()" shareButton="twitter"
+      [url]="'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}"
+      [description]="'invite_friend.message_invite'|translate:{name:current_user.player_name ? current_user.player_name : (current_user.full_name?current_user.full_name:('rank.player'|translate:{'id': (current_user.suffix_player_name ? current_user.suffix_player_name : current_user.id)})), link:'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}}"
+      class="icon icon-xs icon-round bg-twitter regularbold">
+      <i class="fab fa-twitter"></i>
+    </a>
+    <a (click)="$event.stopPropagation()" shareButton="whatsapp"
+      [url]="'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}"
+      [description]="'invite_friend.message_invite'|translate:{name:current_user.player_name ? current_user.player_name : ('rank.player'|translate:{'id': (current_user.suffix_player_name ? current_user.suffix_player_name : current_user.id)}), link:'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}}"
+      class="icon icon-xs icon-round bg-whatsapp regularbold">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <a (click)="$event.stopPropagation()" shareButton="sms"
+      [url]="'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}"
+      [description]="'invite_friend.message_invite'|translate:{name:current_user.player_name ? current_user.player_name : ('rank.player'|translate:{'id': (current_user.suffix_player_name ? current_user.suffix_player_name : current_user.id)}), link:'invite_friend.link_url'|translate:{key_code:current_user.ref_parent_code}}"
+      class="icon icon-xs icon-round bg-mail regularbold">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </p>
+  <div class="clear"></div>
+</div>
+
+<div class="clear"></div>
+<div class="fixed-footer">
+  #GrandQuiz
+</div>
+
+<!--<div class="fixed-bottle">
+  <img src="assets/img/mutzig_65cl.png" alt="bouteille">
+</div>-->

@@ -1,0 +1,93 @@
+<!--<h1 class="text-left font-24 content-title">{{title}}</h1>-->
+<!--<p>Pour votre participation il est important d'avoir un compte</p>-->
+
+<div class="content left-20 right-20 top-30">
+    <h1 class="font-30">{{title|translate}}</h1>
+    <h2 class="font-16 under-heading color-highlight bold">
+        {{'views.message_sub_title_login'|translate}}
+    </h2>
+    <div class="divider top-20"></div>
+    <div id="recaptcha-container"></div>
+
+    <div class="login-provider" *ngIf="type_login==='list_view'">
+        <a href="#" class="shareToMail button button-round bg-phone button button-s button-icon" (click)="close_menu($event);open_form('phone')">
+            <i class="fa fa-phone"></i> via Téléphone
+        </a>
+
+        <a (click)="close_menu($event);openDialog()" target="_blanc" class="button button-round bg-whatsapp button button-s button-icon">
+            <i class="fab fa-whatsapp"></i> via WhatsApp
+        </a>
+
+        <a class="shareToFacebook button button-round bg-facebook button button-s button-icon" (click)="close_menu($event);doFacebookLogin()">
+            <i class="fab fa-facebook-f"></i> via Facebook
+        </a>
+
+        <a class="shareToFacebook button button-round bg-google button button-s button-icon" (click)="close_menu($event);doGoogleLogin();">
+            <i class="fab fa-google"></i> via Google
+        </a>
+
+        <!-- <a class="shareToMail button button-round bg-mail button button-s button-icon" (click)="close_menu($event);open_form('email')">
+      <i class="fa fa-envelope"></i> via Email
+    </a> -->
+    </div>
+
+    <form name="formPhone" class="form animated slideInUp" [formGroup]="phoneForm" (ngSubmit)="verifyLoginCode()" *ngIf="type_login==='phone'">
+        <div class="input-style has-icon input-style-1 input-required">
+            <div class="head_phone"> {{'views.phone_number'|translate}}
+                <em>({{'views.required'|translate}})</em>
+            </div>
+            <div class="input-container">
+                <i class="fa fa-phone"></i>
+            </div>
+            <!-- <input type="number" formControlName="phone_number" (ngModelChange)="number_change(phoneNumberL)"
+             class="tel" [placeholder]="'views.phone_number'|translate" required> -->
+            <ngx-intl-tel-input [cssClass]="'tel tel_register'" [searchCountryPlaceholder]="'views.phone_number'|translate" [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true" [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.Cameroon" [maxLength]="15" [tooltipField]="TooltipLabel.Name" [phoneValidation]="true" [separateDialCode]="separateDialCode" [numberFormat]="PhoneNumberFormat.National" name="phone_number"
+                formControlName="phone_number">
+            </ngx-intl-tel-input>
+        </div>
+
+        <div *ngIf="phoneNumberP.invalid && (phoneNumberP.dirty && phoneNumberP.touched)" class="alert alert-danger">
+            <div *ngIf="phoneNumberP.errors.required">
+                {{'views.phone_number_required'|translate}}
+            </div>
+            <div *ngIf="phoneNumberP.errors.validatePhoneNumber">
+                {{'views.phone_number_must_be'|translate }}
+            </div>
+        </div>
+
+        <div *ngIf="windowRef.confirmationResult">
+            <div class="input-style has-icon input-style-1 input-required top-10">
+                <i class="input-icon fa fa-lock font-11"></i>
+                <span>{{'views.code'|translate}}</span>
+                <em>({{'views.required'|translate}})</em>
+                <input type="text" formControlName="code" [placeholder]="'views.code'|translate">
+            </div>
+            <div *ngIf="code.invalid && (code.dirty && code.touched)" class="alert alert-danger">
+                <div *ngIf="code.errors.required">
+                    {{'views.code_required'|translate}}
+                </div>
+                <div *ngIf="code.errors.pattern">
+                    {{'views.code_must_be'|translate}}
+                </div>
+            </div>
+            <div class="top-30">
+                <button class="button button-full button-s round-small shadow-huge bg-red4-dark bottom-10" type="submit" [disabled]="phoneForm.invalid">
+        {{'views.confirm_code'|translate}}
+      </button>
+            </div>
+        </div>
+
+        <div class="top-10">
+            <button *ngIf="!windowRef.confirmationResult" class="button button-full button-m round-small shadow-huge bg-red4-dark bottom-10 animated slideInLeft" type="button" (click)="sendLoginCode()" [disabled]="phoneNumberP.invalid">
+        {{'views.send_sms'|translate}}
+      </button>
+
+            <div class="divider top-20"></div>
+
+            <a (click)="$event.preventDefault();goto_provider();" class="button button-m button-full bg-dark2-light round-small color-theme">
+        {{'views.change_connect_type'|translate}}
+      </a>
+        </div>
+    </form>
+</div>

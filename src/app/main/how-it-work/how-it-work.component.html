@@ -1,0 +1,35 @@
+<h1 class="text-left font-24 content-title">{{title|translate}}</h1>
+
+<div class="content">
+  <!--<div class="init_play">
+    <h2 class="text-left font-20">{{"how_it_work.sub_title"|translate}}</h2>
+    <div class="divider bottom-10"></div>
+    <div style="margin-bottom: 10px">
+      <div [innerHTML]="'how_it_work.content'|translate"></div>
+      <div class="start_test top-10">
+        <a (click)="$event.stopPropagation()" routerLink="/nouveau-jeu"
+           class="button button-m button-full round-small bg-red4-light shadow-huge bottom-0">
+          &lt;!&ndash;Prêt ? Allez Lancer le jeu&ndash;&gt; {{'how_it_work.start_play'|translate}}
+        </a>
+      </div>
+    </div>
+  </div>-->
+  <ng-container *ngFor="let obj of object.data">
+    <div (click)="obj.accordion_ext=!obj.accordion_ext"
+         class="content-title has-border border-highlight bottom-10">
+      <h5 class="bold color-black">{{obj.title}}</h5>
+      <span class="color-highlight">
+        <i class="fa" [ngClass]="obj.accordion_ext?'fa-arrow-up':'fa-arrow-down'"></i>
+      </span>
+    </div>
+    <div *ngIf="obj.accordion_ext">
+      <div class="color-black black-content" style="overflow: hidden" [innerHTML]="obj.content|keepHtml:'html'"></div>
+      <div class="round-small shadow-huge bottom-30 top-20" *ngIf="obj.image">
+        <img [src]="obj.image" class="preload-image responsive-image">
+      </div>
+      <ng-container *ngIf="obj.link">
+        <span [innerHTML]="obj.link"></span>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>

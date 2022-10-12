@@ -1,0 +1,180 @@
+:host {
+  p {
+    color: black !important;
+  }
+
+  .content {
+    .content-title {
+      padding-left: 0 !important;
+      padding-right: 10px !important;
+
+      &.has-border {
+        border-left: none;
+      }
+    }
+
+    & > p {
+      color: black;
+    }
+
+    .black-content {
+      * {
+        color: black !important;
+      }
+    }
+  }
+
+  .content-title.has-border span {
+    position: absolute;
+    left: 0;
+    right: 6px;
+    z-index: 1;
+    text-align: right;
+    margin-top: 0;
+    font-size: 10px;
+  }
+
+  .content-title span {
+    top: 0;
+  }
+
+  .link-list-2.link-list-long-border p {
+    margin-left: 0;
+    padding-left: 45px;
+  }
+
+  .link-list-2 p {
+    line-height: 75px;
+    margin-left: 45px;
+    border: solid 1px rgba(0, 0, 0, 0.05);
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    display: inline;
+  }
+
+  .link-list-2 p i:first-child {
+    line-height: 35.5px;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    position: absolute;
+    top: 39px;
+    font-size: 14px;
+    left: -45px;
+  }
+
+  .link-list-2 p i:last-child {
+    line-height: 107px;
+    width: 20px;
+    font-size: 10px;
+    text-align: center;
+    position: absolute;
+    right: 0;
+    top: 2px;
+    color: #666666;
+  }
+
+  .remove_style {
+
+    .link-list-1.link-list-long-border span {
+      margin-left: 0;
+      padding-left: 35px;
+      font-size: 13px;
+    }
+
+    .link-list-1.link-list-no-icon span {
+      margin-left: 0 !important;
+    }
+
+    .link-list-1.link-list-icon-bg span {
+      padding-left: 10px;
+    }
+
+    .link-list-1.link-list-icon-bg i:first-child {
+      width: 28px;
+      height: 28px;
+      line-height: 29px;
+    }
+
+
+    .link-list-1 a i:last-child {
+      line-height: 50px;
+      width: 20px;
+      font-size: 10px;
+      text-align: center;
+      position: absolute;
+      right: 0;
+      top: 0;
+      color: #666666;
+    }
+
+    .link-list-1 a {
+      border-bottom: none;
+    }
+
+    .link-list-1 a i:first-child {
+      line-height: 30px;
+      width: 20px;
+      text-align: center;
+      position: absolute;
+      top: 13px;
+      left: 45px;
+    }
+
+    .link-list-1 a span {
+      font-weight: 500;
+      display: block;
+      color: #1f1f1f;
+      line-height: 36px;
+      margin-left: 33px;
+    }
+
+    .link-list-1 em {
+      font-size: 9px;
+      font-weight: 700;
+      border-radius: 4px;
+      position: absolute;
+      top: 16px;
+      right: 0;
+      line-height: 18px;
+      text-align: center;
+      font-style: normal;
+      z-index: 2;
+      color: #FFF;
+      padding: 0 8px 0 8px;
+    }
+
+    .link-list-1 div i:last-child {
+      line-height: 50px;
+      width: 20px;
+      font-size: 10px;
+      text-align: center;
+      position: absolute;
+      right: 0;
+      top: 0;
+      color: #666666;
+    }
+
+    .link-list-1 div {
+      border-bottom: none;
+    }
+
+    .link-list-1 div i:first-child {
+      line-height: 30px;
+      width: 20px;
+      text-align: center;
+      position: absolute;
+      top: 13px;
+      left: 45px;
+    }
+
+    .link-list-1 div span {
+      font-weight: 500;
+      display: block;
+      color: #1f1f1f;
+      line-height: 36px;
+      margin-left: 33px;
+    }
+  }
+}

@@ -1,0 +1,65 @@
+<h1 class="text-left font-24 content-title">{{title|translate}}</h1>
+
+<div class="content">
+  <div class="content_parent tab-controls tab-animated tabs-medium tabs-rounded"
+       data-tab-items="2"
+       data-tab-active="bg-red4-light">
+    <a (click)="$event.stopPropagation();" data-tab-active data-tab="tab-st">{{'suggest_question.form_tab_name'|translate}}</a>
+    <a (click)="$event.stopPropagation();" data-tab="tab-dt">{{'suggest_question.your_suggestion'|translate}}</a>
+  </div>
+  <div class="clear bottom-15"></div>
+
+  <div class="tab-content tab-st" style="display: block" id="tab-st">
+    <form name="suggestForm" class="form animated slideInUp" [formGroup]="suggestForm"
+          (ngSubmit)="save_data(suggestForm)">
+      <div class="form-field form-text">
+        <label class="question color-theme" for="question">
+          {{'suggest_question.propose_question'|translate}}
+          <span>({{'views.required'|translate}})</span>
+        </label>
+        <textarea rows="3" required  formControlName="question" id="question"></textarea>
+      </div>
+
+      <div class="form-field form-text">
+        <label class="response color-theme" for="response">
+          {{'suggest_question.answer_to_question'|translate}}
+        </label>
+        <textarea rows="3" formControlName="response" id="response"></textarea>
+      </div>
+
+      <button style="width: 100%" class="button button-full button-m round-small shadow-huge bg-red4-dark bottom-30"
+              type="submit" [disabled]="suggestForm.invalid">
+        {{'suggest_question.send'|translate}}
+      </button>
+    </form>
+  </div>
+  <div class="tab-content tab-dt" id="tab-dt">
+    <div class="top-30">
+      <ng-container *ngFor="let obj of object.data">
+        <div (click)="obj.accordion_ext=!obj.accordion_ext"
+             class="content-title has-border border-highlight bottom-10">
+          <span class=" round-huge shadow-huge" [ngClass]="{'bg-red2-dark':obj.rejected,'bg-green4-dark':obj.validated, 'bg-yellow2-dark':((!obj.validated)&&(!obj.rejected))}">
+            <i class="fa fa-info-circle"></i>
+          </span>
+          <h5 class="bold color-black">{{obj.question}}</h5>
+          <!-- *ngIf="obj.reasons.length>0"-->
+          <span class="color-highlight">
+            <i class="fa" [ngClass]="obj.accordion_ext?'fa-arrow-up':'fa-arrow-down'"></i>
+          </span>
+        </div>
+        <div *ngIf="obj.accordion_ext">
+          <p>{{'suggest_question.response'|translate}} {{obj.response}}</p>
+          <p>
+            {{'suggest_question.status'|translate}}
+            <b [ngClass]="{'color-red2-dark':obj.rejected,'color-green4-dark':obj.validated, 'color-yellow2-dark':((!obj.validated)&&(!obj.rejected))}">
+              {{((!obj.validated)&&(!obj.rejected)?'suggest_question.in_class_validation':(obj.validated?'suggest_question.accepted':(obj.rejected?'suggest_question.rejected':'')))|translate}}
+            </b>
+          </p>
+          <div class="divider top-20"></div>
+          <div class="color-black black-content" style="overflow: hidden"
+               *ngFor="let objr of obj.reasons" [innerHTML]="objr.reason|keepHtml:'html'"></div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

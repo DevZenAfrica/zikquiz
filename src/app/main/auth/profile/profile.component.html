@@ -1,0 +1,300 @@
+<h1 class="text-left font-24 content-title">{{'components.profile_player'|translate}}</h1>
+
+<div *ngIf="object">
+  <div class="profile-header">
+    <div class="profile-left">
+      <h1>{{(object.user.full_name ? object.user.full_name : (object.user.player_name ? object.user.player_name : ('rank.player')))|translate:{'id': (object.user.suffix_player_name ? object.user.suffix_player_name : object.user.id)} }}
+        <i class="fa fa-check-circle color-highlight"></i></h1>
+      <p
+        [innerHTML]="'views.full_text_player'|translate:{'player_name':object.user.player_name ? object.user.player_name : ('rank.player'|translate:{'id': (object.user.suffix_player_name ? object.user.suffix_player_name : object.user.id)})}">
+      </p>
+
+      <a (click)="$event.stopPropagation()" class="color-theme">
+        {{object.user.count_invitation|numberFormat}}
+        <span> Invitation{{object.user.count_invitation > 1 ? 's' : ''}}</span>
+      </a>
+      <a (click)="$event.stopPropagation()" class="color-theme">
+        {{object.user.count_proposition|numberFormat}}
+        <span>Proposition{{object.user.count_proposition > 1 ? 's' : ''}}</span>
+      </a>
+      <div class="clear"></div>
+    </div>
+    <div class="profile-right">
+      <a (click)="$event.stopPropagation();inputFile.click();">
+        <img [src]="croppedImage||(current_user.avatar?(current_user.providerId?current_user.avatar:api_url+current_user.avatar):'')||'assets/img/profile.jpg'"
+             class="preload-image shadow-large">
+      </a>
+    </div>
+  </div>
+  <div class="content top-10">
+    <!--<div class="content_parent tab-controls tab-animated tabs-medium tabs-rounded"
+         data-tab-items="2"
+         data-tab-active="bg-red4-light">
+      <a data-tab-active data-tab="tab-base" (click)="$event.stopPropagation()">Détails</a>
+      <a data-tab="tab-phone" (click)="$event.stopPropagation()">Téléphone</a>
+    </div>-->
+
+    <div class="clear bottom-15"></div>
+
+    <div class="text-left">
+      <form name="formProfile" class="form animated slideInUp" [formGroup]="profileForm"
+            (ngSubmit)="save_profile()">
+        <div>
+          <h6 class="uppercase">{{'views.background_music'|translate}}</h6>
+          <div class="bottom-10 font-12 active_sound">
+            {{'views.background_text_music'|translate}}
+            <span class="switcher">
+            <ui-switch [checkedLabel]="'views.yes'|translate" [uncheckedLabel]="'views.no'|translate"
+                       formControlName="is_sound" size="small"></ui-switch>
+          </span>
+          </div>
+        </div>
+
+        <div class="input-style input-style-1 input-required">
+            <span class="input-style-1-active input-style-1-inactive">
+              {{'views.select_lang' | translate}}
+            </span>
+          <em><i class="fa fa-angle-down"></i></em>
+          <select formControlName="lang">
+            <option [ngValue]="obj.key" *ngFor="let obj of languages">{{obj.label|translate}}</option>
+          </select>
+        </div>
+
+        <div class="input-style has-icon input-style-1 input-required">
+          <div class="input-container">
+            <i class="fa fa-phone"></i>
+          </div>
+          <span>{{'views.phone_number'|translate}}</span>
+          <div class="is-what-app">
+            <div class="fac fac-checkbox fac-default">
+              <input id="box1-fac-checkbox" type="checkbox"
+                     formControlName="is_whatsapp">
+              <label for="box1-fac-checkbox">
+                <b>{{'views.is_whatsapp_number'|translate}}</b>
+                <img src="assets/img/whatsapp-logo.png" alt="">
+              </label>
+            </div>
+          </div>
+          <!--pattern="/^[0-9]{1,9}$/"-->
+          <input type="text" class="tel tel_register" [disabled]="true" [value]="object.user.phone"
+                 [placeholder]="'views.phone_number'">
+        </div>
+
+        <div>
+          <div class="input-style has-icon input-style-1 input-required">
+            <i class="input-icon fa fa-universal-access font-11"></i>
+            <span>{{'views.player_name'|translate}}</span>
+            <em>({{'views.required'|translate}})</em>
+            <input formControlName="player_name" [placeholder]="'views.player_name'|translate">
+          </div>
+          <div *ngIf="playerName.invalid && (playerName.dirty && playerName.touched)"
+               class="alert alert-danger">
+            <div *ngIf="playerName.errors.required">
+              {{'views.player_name_required'|translate}}
+            </div>
+            <div *ngIf="playerName.errors.minlength">
+              {{'views.player_name_must_be'|translate:{'nbr': 4} }}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="input-style has-icon input-style-1 input-required">
+            <i class="input-icon fa fa-user font-11"></i>
+            <span>{{'views.full_name'|translate}}</span>
+            <em>({{'views.required'|translate}})</em>
+            <input formControlName="full_name" [placeholder]="'views.full_name'|translate">
+          </div>
+          <div *ngIf="fullName.invalid && (fullName.dirty && fullName.touched)"
+               class="alert alert-danger">
+            <div *ngIf="fullName.errors.required">
+              {{'views.full_name_required'|translate}}
+            </div>
+            <div *ngIf="fullName.errors.minlength">
+              {{'views.full_name_must_be'|translate:{'nbr': 4} }}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <mat-form-field>
+            <mat-select formControlName='city_id' [placeholder]="'views.select_city'|translate" #singleSelect>
+              <mat-option>
+                <ngx-mat-select-search [formControl]="countryFilterCtrl" placeholderLabel="Rechercher un pays..."
+                noEntriesFoundLabel="'aucun pays trouvé'"></ngx-mat-select-search>
+              </mat-option>
+
+              <mat-option *ngFor="let obj of filteredCountries|async" [value]="obj.alpha2">
+                {{obj.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div *ngIf="city.value=='other'" class="input-style input-style-1 input-required">
+            <span>{{'views.other_city'|translate}} </span>
+            <input type="text" [placeholder]="'views.other_city'|translate" formControlName="other_city"/>
+          </div>
+        </div>
+
+        <div class="input-style input-style-1 input-required">
+          <span>{{'views.your_neighborhood'|translate}} </span>
+          <input type="text" [placeholder]="'views.your_neighborhood'|translate" formControlName="neighborhood"/>
+        </div>
+
+        <div>
+          <input style="display: none" type="file" accept="image/.png, .jpg, .jpeg" #inputFile
+                 (change)="fileChangeEvent($event)"/>
+
+          <div style="width: 80%; margin: 0 auto">
+            <image-cropper
+              [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="true"
+              format="png"
+              [resizeToWidth]="100"
+              [resizeToHeight]="100"
+              [alignImage]="'center'"
+              [cropperMinWidth]="100"
+              [cropperMinHeight]="100"
+              [roundCropper]="true"
+              (imageLoaded)="imageLoaded()"
+              (imageCropped)="imageCropped($event)"
+            ></image-cropper>
+          </div>
+
+          <div class="top-20 text-center">
+            <button style="display: inline" class="button button-m round-small shadow-huge bg-yellow1-dark"
+                    (click)="inputFile.click()" type="button">
+              {{'views.change_avatar'|translate}}
+            </button>
+            <!--<div class="one-half text-center">
+              <button class="button button-m round-small shadow-huge bg-yellow1-dark"
+                      (click)="inputFile.click()" type="button">
+                Picker une image
+              </button>
+            </div>
+            <div class="one-half last-column text-center">
+              <button class="button button-m round-small shadow-huge bg-red4-dark"
+                      [disabled]="!croppedImage" (click)="save_image()" type="button">
+                Enrégistrer
+              </button>
+            </div>-->
+          </div>
+        </div>
+
+        <div class="top-20 send">
+          <button class="button button-full button-m round-small bg-red4-dark bottom-30"
+                  [disabled]="profileForm.invalid" type="submit">
+            {{'views.save'|translate}}
+          </button>
+        </div>
+      </form>
+    </div>
+    <!--<div class="tab-content tab-base" style="display: block" id="tab-base">
+
+    </div>
+    <div class="tab-content tab-phone" id="tab-phone">
+      <div>
+        <h4 class="uppercase">Changer son numero de téléphone</h4>
+        <div class="bottom-10 font-12">
+          Si vous avez eu à changer votre numéro de téléphone; Veillez la mettre à jour ici 👇👇
+        </div>
+      </div>
+
+      <form name="formPhone" class="form animated slideInUp" [formGroup]="phoneForm"
+            (ngSubmit)="change_phone()">
+        <div>
+          <div class="input-style has-icon input-style-1 input-required">
+            <i class="input-icon fa fa-lock font-11"></i>
+            <span>Code à 4 chiffres</span>
+            <em>(requis)</em>
+            <input type="number" required formControlName="code" placeholder="Code à 4 chiffres"
+                   (ngModelChange)="number_change(code, 4)">
+          </div>
+          <div *ngIf="code.invalid && (code.dirty && code.touched)"
+               class="alert alert-danger">
+            <div *ngIf="code.errors.required">
+              Le code est requis.
+            </div>
+            <div *ngIf="code.errors.pattern">
+              Le code est de 4 chiffres
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="input-style has-icon input-style-1 input-required">
+            <div class="input-container">
+              <i class="fa fa-phone"></i>
+              <b>+237</b>
+            </div>
+            <span>Nouveau N° de téléphone</span>
+            <div class="is-what-app">
+              <div class="fac fac-checkbox fac-default">
+                <input id="box1-fac-checkbox2" type="checkbox"
+                       formControlName="is_whatsapp_new">
+                <label for="box1-fac-checkbox2">
+                  <b>N° WhatsApp ?</b>
+                  <img src="assets/img/whatsapp-logo.png" alt="">
+                </label>
+              </div>
+            </div>
+            &lt;!&ndash;pattern="/^[0-9]{1,9}$/"&ndash;&gt;
+            <input type="number" class="tel tel_register" formControlName="phone_new"
+                   (ngModelChange)="number_change(phoneNumberN)"
+                   placeholder="N° Téléphone">
+          </div>
+          <div *ngIf="phoneNumberN.invalid && (phoneNumberN.dirty && phoneNumberN.touched)"
+               class="alert alert-danger">
+            <div *ngIf="phoneNumberN.errors.required">
+              Le N° de téléphone est requis.
+            </div>
+            <div *ngIf="phoneNumberN.errors.pattern">
+              Le N°Téléphone doit être composé de 9 chiffres
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="phoneForm.get('is_change').value">
+          <div class="input-style has-icon input-style-1 input-required">
+            <i class="input-icon fa fa-lock font-11"></i>
+            <span>Nouveau code à 4 chiffres recu</span>
+            <em>(requis)</em>
+            <input type="number" required formControlName="new_code" placeholder="Nouveau code à 4 chiffres recu"
+                   (ngModelChange)="number_change(new_code, 4)">
+          </div>
+          <div *ngIf="new_code.invalid && (new_code.dirty && new_code.touched)"
+               class="alert alert-danger">
+            <div *ngIf="new_code.errors.required">
+              Le code est requis.
+            </div>
+            <div *ngIf="new_code.errors.pattern">
+              Le code est de 4 chiffres
+            </div>
+          </div>
+        </div>
+
+        <div class="top-20 send" *ngIf="!phoneForm.get('is_change').value">
+          <button class="button button-full button-m round-small shadow-huge bg-red4-dark bottom-30"
+                  [disabled]="phoneForm.invalid" type="submit">
+            Changer
+          </button>
+        </div>
+
+        <div class="top-20 send" *ngIf="phoneForm.get('is_change').value">
+          <div class="one-half">
+            <button class="button button-full button-m round-small shadow-huge bg-yellow1-dark bottom-30"
+                    (click)="cancel_change()" type="button">
+              Annuler
+            </button>
+          </div>
+          <div class="one-half last-column">
+            <button class="button button-full button-m round-small shadow-huge bg-red4-dark bottom-30"
+                    [disabled]="phoneForm.invalid" type="submit">
+              Confirmer
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>-->
+  </div>
+</div>
