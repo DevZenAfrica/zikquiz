@@ -1,7 +1,11 @@
 <!--<h1 class="text-left font-24 content-title">{{title}}</h1>-->
 <!--<p>Pour votre participation il est important d'avoir un compte</p>-->
 
-<div class="content left-20 right-20 top-30">
+<div *ngIf="isLoadingFromAyoba">
+  Loading...
+</div>
+
+<div class="content left-20 right-20 top-30 {{isLoadingFromAyoba ? 'invisible' : ''}}">
     <h1 class="font-30">{{title|translate}}</h1>
     <h2 class="font-16 under-heading color-highlight bold">
         {{'views.message_sub_title_login'|translate}}
@@ -14,13 +18,13 @@
             <i class="fa fa-phone"></i> via Téléphone
         </a>
 
-        <a (click)="close_menu($event);openDialog()" target="_blanc" class="button button-round bg-whatsapp button button-s button-icon">
+        <!--a (click)="close_menu($event);openDialog()" target="_blanc" class="button button-round bg-whatsapp button button-s button-icon">
             <i class="fab fa-whatsapp"></i> via WhatsApp
         </a>
 
         <a class="shareToFacebook button button-round bg-facebook button button-s button-icon" (click)="close_menu($event);doFacebookLogin()">
             <i class="fab fa-facebook-f"></i> via Facebook
-        </a>
+        </a-->
 
         <a class="shareToFacebook button button-round bg-google button button-s button-icon" (click)="close_menu($event);doGoogleLogin();">
             <i class="fab fa-google"></i> via Google

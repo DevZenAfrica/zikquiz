@@ -1656,7 +1656,7 @@ $(document).ready(function () {
       var fileName = e.target.files[0].name;
       console.log(e.target.files[0]);
       $('.upload-file-data').removeClass('disabled');
-      $('.upload-file-name').html(e.target.files[0].name)
+      $('.upload-file-name').html(e.target.files[0].name);
       $('.upload-file-modified').html(e.target.files[0].lastModifiedDate);
       $('.upload-file-size').html(e.target.files[0].size / 1000 + 'kb')
       $('.upload-file-type').html(e.target.files[0].type)

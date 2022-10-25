@@ -1,46 +1,50 @@
-import { ModalWhatsAppComponent } from "./../../../core/_components/modal-whats-app/modal-whats-app.component";
-import { environment } from "./../../../../environments/environment";
+import { ModalWhatsAppComponent } from './../../../core/_components/modal-whats-app/modal-whats-app.component';
+import { environment } from './../../../../environments/environment';
 import {
   AfterContentChecked,
   AfterViewInit,
   Component,
   OnInit,
-} from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { AuthenticationService } from "../../../core/_services/authentication.service";
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from '../../../core/_services/authentication.service';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
-} from "@angular/forms";
+} from '@angular/forms';
 import {
   SearchCountryField,
   TooltipLabel,
   CountryISO,
   PhoneNumberFormat,
-} from "ngx-intl-tel-input";
-import { ReCaptchaV3Service } from "ng-recaptcha";
-import { Subscription } from "rxjs";
-import firebase from "firebase/app";
-import "firebase/auth";
-import { MatDialog } from "@angular/material/dialog";
+} from 'ngx-intl-tel-input';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
+import { Subscription } from 'rxjs';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { MatDialog } from '@angular/material/dialog';
 
 declare function getMsisdn(): any;
 declare function getCountry(): any;
+declare function getSelfJid(): any;
 declare const globalUserName: any;
 declare const avatarUser: any;
 
 declare var $: any;
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, AfterViewInit {
+
+  isLoadingFromAyoba = false;
+
   private subscription: Subscription;
-  title: string = "components.ask_connect_account";
+  title = 'components.ask_connect_account';
   private returnUrl: string;
   is_register_form = false;
   is_login_form = false;
@@ -68,51 +72,51 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   numeroDeTelephoneGet = null;
 
-  type_login: string = "list_view";
+  type_login = 'list_view';
 
   phoneForm = this.fb.group({
     phone_number: [undefined, [Validators.required]],
-    code: ["", [Validators.required]],
+    code: ['', [Validators.required]],
   });
   get phoneNumberP() {
-    return this.phoneForm.get("phone_number");
+    return this.phoneForm.get('phone_number');
   }
 
   registerForm = this.fb.group({
-    email: ["", [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email]],
     phone_number: [undefined],
-    player_name: ["", [Validators.required, Validators.minLength(4)]],
-    full_name: ["", [Validators.required, Validators.minLength(4)]],
+    player_name: ['', [Validators.required, Validators.minLength(4)]],
+    full_name: ['', [Validators.required, Validators.minLength(4)]],
     is_whatsapp: [false],
   });
 
   get phoneNumberR() {
-    return this.registerForm.get("phone_number");
+    return this.registerForm.get('phone_number');
   }
 
   get emailR() {
-    return this.registerForm.get("email");
+    return this.registerForm.get('email');
   }
 
   get playerName() {
-    return this.registerForm.get("player_name");
+    return this.registerForm.get('player_name');
   }
 
   get fullName() {
-    return this.registerForm.get("full_name");
+    return this.registerForm.get('full_name');
   }
 
   loginForm = this.fb.group({
-    email: ["", [Validators.required, Validators.email]],
-    code: ["", [Validators.required, Validators.minLength(4)]],
+    email: ['', [Validators.required, Validators.email]],
+    code: ['', [Validators.required, Validators.minLength(4)]],
   });
 
   get phoneNumberL() {
-    return this.loginForm.get("phone_number");
+    return this.loginForm.get('phone_number');
   }
 
   get code() {
-    return this.loginForm.get("code");
+    return this.loginForm.get('code');
   }
 
   number_change(phone: AbstractControl, length: number = 9) {
@@ -135,35 +139,75 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    if(getMsisdn()) {
-      this.numeroDeTelephoneGet = getMsisdn();
+    if (getMsisdn()) {
+      this.isLoadingFromAyoba = true;
+      this._auth
+        .login({
+          uid: getMsisdn().toString().replace('+',''),
+          displayName: globalUserName,
+          photoURL: null,
+          email: null,
+          phoneNumber: getMsisdn().toString(),
+          providerId: 'phone',
+          ref_parent: localStorage.getItem('key_parain_code')
+        })
+        .subscribe(
+          (data) => {
+            if (data.message) {
+              this._auth.api.toast.success(data.message);
+            }
+            this.returnUrl = '/nouveau-jeu';
+            this.router.navigate([this.returnUrl]).then(
+              () => {
+                this._auth.api.is_loader(false);
+              },
+              () => {
+                this._auth.api.is_loader(false);
+              }
+            );
+            this.loginForm.reset();
+            this.__init();
+            this.windowRef.confirmationResult = null;
+          },
+          (err) => {
+            this._auth.api.is_loader(false);
+
+            if (err.error.ask_resend_link && err.error.message) {
+              this._auth.api.toast.info(err.error.message);
+              this.object_login.ask_resend_link = true;
+            } else if (err.error.message) {
+              this._auth.api.toast.error(err.error.message);
+            }
+            console.log(err);
+          }
+        );
+    } else {
+      this.windowRef = this._auth.windowRef;
+      this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+        'recaptcha-container',
+        {
+          size: 'invisible',
+        }
+      );
+
+      this.windowRef.recaptchaVerifier.render();
+
+      this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/accueil';
     }
-
-    this.windowRef = this._auth.windowRef;
-    this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-      "recaptcha-container",
-      {
-        size: "invisible",
-      }
-    );
-
-    this.windowRef.recaptchaVerifier.render();
-
-    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/accueil";
   }
 
   openDialog() {
     this.dialog.open(ModalWhatsAppComponent, {
-      width: "90%",
-      minWidth: "90%",
-      panelClass: "dialog-wha",
-      data: { key: "login_wha" },
+      width: '90%',
+      minWidth: '90%',
+      panelClass: 'dialog-wha',
+      data: { key: 'login_wha' },
     });
   }
 
   ngAfterViewInit(): void {
     this.__init();
-    //this.openDialog();
+    // this.openDialog();
   }
 
   __init() {
@@ -182,10 +226,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   login() {
     if (environment.production) {
-      this.subscription = this.recaptchaV3Service.execute("login").subscribe(
+      this.subscription = this.recaptchaV3Service.execute('login').subscribe(
         (token) => {
           console.log(token);
-          this.loginForm.get("recaptcha").patchValue(token);
+          this.loginForm.get('recaptcha').patchValue(token);
           this.handle_login();
         },
         (error) => {
@@ -195,7 +239,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     } else {
       console.log(this.loginForm.value);
 
-      //this.handle_login();
+      // this.handle_login();
     }
   }
 
@@ -217,7 +261,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
             recaptcha: log.recaptcha,
             countryCode: log.phone_number.countryCode.toLowerCase(),
             dialCode: log.phone_number.dialCode,
-            ref_parent: localStorage.getItem("key_parain_code")
+            ref_parent: localStorage.getItem('key_parain_code')
           })
           .subscribe(
             (data) => {
@@ -276,7 +320,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           .login({
             ...user.providerData[0],
             uid: user.uid,
-            ref_parent: localStorage.getItem("key_parain_code")
+            ref_parent: localStorage.getItem('key_parain_code')
           })
           .subscribe(
             (data) => {
@@ -309,10 +353,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
       },
       (err) => {
         this._auth.api.is_loader(false);
-        if (err.code == "auth/account-exists-with-different-credential")
+        if (err.code == 'auth/account-exists-with-different-credential') {
           this._auth.api.toast.info(
             this._auth.api.current_lang.components.connect_google_account
           );
+        }
       }
     );
   }
@@ -326,7 +371,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           .login({
             ...user.providerData[0],
             uid: user.uid,
-            ref_parent: localStorage.getItem("key_parain_code"),
+            ref_parent: localStorage.getItem('key_parain_code'),
           })
           .subscribe(
             (data) => {
@@ -358,10 +403,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
       },
       (err) => {
         this._auth.api.is_loader(false);
-        if (err.code == "auth/account-exists-with-different-credential")
+        if (err.code == 'auth/account-exists-with-different-credential') {
           this._auth.api.toast.info(
             this._auth.api.current_lang.components.connect_facebook_account
           );
+        }
       }
     );
   }
@@ -405,7 +451,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
             .login({
               ...user.providerData[0],
               uid: user.uid,
-              ref_parent: localStorage.getItem("key_parain_code"),
+              ref_parent: localStorage.getItem('key_parain_code'),
             })
             .subscribe(
               (data) => {
@@ -439,24 +485,24 @@ export class LoginComponent implements OnInit, AfterViewInit {
         },
         (error) => {
           this._auth.api.is_loader(false);
-          console.log(error, "Incorrect code entered?");
+          console.log(error, 'Incorrect code entered?');
         }
       )
       .catch((error) => {
         this._auth.api.is_loader(false);
-        console.log(error, "Incorrect code entered?");
+        console.log(error, 'Incorrect code entered?');
       });
   }
 
   goto_provider() {
-    this.type_login = "list_view";
+    this.type_login = 'list_view';
     this.__init();
   }
 
   open_form(type) {
     switch (type) {
-      case "phone":
-        this.type_login = "phone";
+      case 'phone':
+        this.type_login = 'phone';
         break;
 
       default:
